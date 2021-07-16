@@ -1,0 +1,22 @@
+{
+  "name": "gpupricechecker",
+  "version": "1.0.0",
+  "description": "Checks prices for GPUs on electronics ecommerce sites to find reasonable deals.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeffkeilman/GPUPriceChecker.git"
+  },
+  "author": "Jeff Keilman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeffkeilman/GPUPriceChecker/issues"
+  },
+  "homepage": "https://github.com/jeffkeilman/GPUPriceChecker#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
+}
