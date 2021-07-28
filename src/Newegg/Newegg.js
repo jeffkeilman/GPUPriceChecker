@@ -1,6 +1,8 @@
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
 
+const GetDOM = require('../GetDOM/GetDOM')
+
 const {
   neweggSearchURL,
   neweggPageParam,
@@ -10,7 +12,10 @@ const {
   neweggCentsPriceSelector,
   neweggDollarsPriceSelector,
   neweggGraphicsCardFilterId,
-  neweggGraphicsCardFilterParam
+  neweggGraphicsCardFilterParam,
+  neweggPaginationClass,
+  neweggPageSelector,
+  neweggPaginationTextPrefix
 } = require('../../constants/constants')
 
 class Newegg {
@@ -26,6 +31,14 @@ class Newegg {
 
   getPageLink (page) {
     return this.getBaseLink() + '&' + neweggPageParam + String(page)
+  }
+
+  getNumberOfPages (pageHTML) {
+    const dom = new JSDOM(pageHTML)
+    const paginationTextEl = dom.window.document.getElementsByClassName(neweggPaginationClass)[0]
+    // ex. 1<!-- -->/<!-- -->10
+    const paginationText = paginationTextEl.querySelector(neweggPageSelector).innerHTML
+    return Number(paginationText.replace(neweggPaginationTextPrefix, ''))
   }
 
   getCheapestProductSinglePage (pageHTML) {
@@ -53,6 +66,27 @@ class Newegg {
     }
 
     return cheapestItem
+  }
+
+  async getCheapestProductAllPages () {
+    const cheapestCard = {
+      price: Infinity,
+      link: null
+    }
+
+    const firstPageHTML = await GetDOM.getDOM(this.getBaseLink())
+    const numPages = this.getNumberOfPages(firstPageHTML)
+
+    for (let x = 1; x <= numPages; x++) {
+      const pageHTML = x === 1 ? firstPageHTML : await GetDOM.getDOM(this.getPageLink(x))
+      const cheapestOnPage = this.getCheapestProductSinglePage(pageHTML)
+      if (cheapestOnPage.price < cheapestCard.price) {
+        cheapestCard.price = cheapestOnPage.price
+        cheapestCard.link = cheapestOnPage.link
+      }
+    }
+
+    return cheapestCard
   }
 }
 
