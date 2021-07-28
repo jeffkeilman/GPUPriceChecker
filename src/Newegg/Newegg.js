@@ -1,7 +1,17 @@
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
 
-const { neweggSearchURL, neweggPageParam, neweggItemContainer, neweggUrlSpaceChar, neweggPriceClass, neweggCentsPriceSelector, neweggDollarsPriceSelector } = require('../../constants/constants')
+const {
+  neweggSearchURL,
+  neweggPageParam,
+  neweggItemContainer,
+  neweggUrlSpaceChar,
+  neweggPriceClass,
+  neweggCentsPriceSelector,
+  neweggDollarsPriceSelector,
+  neweggGraphicsCardFilterId,
+  neweggGraphicsCardFilterParam
+} = require('../../constants/constants')
 
 class Newegg {
   constructor (gpuName) {
@@ -9,11 +19,13 @@ class Newegg {
   }
 
   getBaseLink () {
-    return neweggSearchURL + this.gpuName.split(' ').join(neweggUrlSpaceChar)
+    // ex. https://www.newegg.com/p/pl?d=GTX+1660+Super&N=100007709
+    return neweggSearchURL + this.gpuName.split(' ').join(neweggUrlSpaceChar) + '&' +
+      neweggGraphicsCardFilterParam + neweggGraphicsCardFilterId
   }
 
   getPageLink (page) {
-    return this.getBaseLink() + neweggPageParam + String(page)
+    return this.getBaseLink() + '&' + neweggPageParam + String(page)
   }
 
   getCheapestProductSinglePage (pageHTML) {
