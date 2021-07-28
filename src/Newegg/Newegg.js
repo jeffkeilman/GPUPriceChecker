@@ -23,6 +23,10 @@ class Newegg {
     this.gpuName = gpuName
   }
 
+  getGPUName () {
+    return this.gpuName
+  }
+
   getBaseLink () {
     // ex. https://www.newegg.com/p/pl?d=GTX+1660+Super&N=100007709
     return neweggSearchURL + this.gpuName.split(' ').join(neweggUrlSpaceChar) + '&' +

@@ -15,6 +15,10 @@ module.exports = {
   neweggDollarsPriceSelector: 'strong',
   neweggCentsPriceSelector: 'sup',
   // Page content
-  neweggPaginationTextPrefix: '1<!-- -->/<!-- -->'
+  neweggPaginationTextPrefix: '1<!-- -->/<!-- -->',
+  // =================================
+  // Index.js
+  // =================================
+  checkPricesInterval: 600000
   // =================================
 }
