@@ -6,5 +6,5 @@ console.log(newegg.getBaseLink())
 console.log(newegg.getPageLink(2))
 
 GetDOM.getDOM(newegg.getBaseLink()).then((res) => {
-  console.log(res)
+  console.log(newegg.getCheapestProductSinglePage(res))
 })
