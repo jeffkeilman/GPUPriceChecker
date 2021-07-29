@@ -7,10 +7,12 @@ module.exports = {
   neweggGraphicsCardFilterParam: 'N=',
   neweggGraphicsCardFilterId: '100007709',
   neweggUrlSpaceChar: '+',
+  neweggInStockParam: '%204131',
   // DOM selectors
   neweggItemContainer: 'item-container',
   neweggPriceClass: 'price-current ',
   neweggPaginationClass: 'list-tool-pagination-text',
+  neweggItemTitleClass: 'item-title',
   neweggPageSelector: 'strong',
   neweggDollarsPriceSelector: 'strong',
   neweggCentsPriceSelector: 'sup',

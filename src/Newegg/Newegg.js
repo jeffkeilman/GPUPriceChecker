@@ -15,7 +15,9 @@ const {
   neweggGraphicsCardFilterParam,
   neweggPaginationClass,
   neweggPageSelector,
-  neweggPaginationTextPrefix
+  neweggPaginationTextPrefix,
+  neweggItemTitleClass,
+  neweggInStockParam
 } = require('../../constants/constants')
 
 class Newegg {
@@ -30,7 +32,7 @@ class Newegg {
   getBaseLink () {
     // ex. https://www.newegg.com/p/pl?d=GTX+1660+Super&N=100007709
     return neweggSearchURL + this.gpuName.split(' ').join(neweggUrlSpaceChar) + '&' +
-      neweggGraphicsCardFilterParam + neweggGraphicsCardFilterId
+      neweggGraphicsCardFilterParam + neweggGraphicsCardFilterId + neweggInStockParam
   }
 
   getPageLink (page) {
@@ -53,8 +55,14 @@ class Newegg {
     const dom = new JSDOM(pageHTML)
     const items = dom.window.document.getElementsByClassName(neweggItemContainer)
     for (const item of items) {
+      const description = item.getElementsByClassName(neweggItemTitleClass)[0]
       const priceEl = item.getElementsByClassName(neweggPriceClass)[0]
-      if (!priceEl) {
+      if (
+        !priceEl ||
+        !description ||
+        !description.innerHTML ||
+        !description.innerHTML.toLowerCase().includes(this.getGPUName().toLowerCase())
+      ) {
         continue
       }
       const priceDollars = priceEl.querySelector(neweggDollarsPriceSelector)
