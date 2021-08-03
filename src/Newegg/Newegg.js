@@ -12,12 +12,13 @@ const {
   neweggCentsPriceSelector,
   neweggDollarsPriceSelector,
   neweggGraphicsCardFilterId,
-  neweggGraphicsCardFilterParam,
+  neweggFilterParam,
   neweggPaginationClass,
   neweggPageSelector,
   neweggPaginationTextPrefix,
   neweggItemTitleClass,
-  neweggInStockParam
+  neweggSpaceCharN,
+  neweggInStockFilterId
 } = require('../../constants/constants')
 
 class Newegg {
@@ -32,7 +33,7 @@ class Newegg {
   getBaseLink () {
     // ex. https://www.newegg.com/p/pl?d=GTX+1660+Super&N=100007709
     return neweggSearchURL + this.gpuName.split(' ').join(neweggUrlSpaceChar) + '&' +
-      neweggGraphicsCardFilterParam + neweggGraphicsCardFilterId + neweggInStockParam
+      neweggFilterParam + neweggGraphicsCardFilterId + neweggSpaceCharN + neweggInStockFilterId
   }
 
   getPageLink (page) {
