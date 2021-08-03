@@ -2,12 +2,14 @@ module.exports = {
   // Newegg
   // =================================
   // Link content
-  neweggSearchURL: 'https://www.newegg.com/p/pl?d=',
+  neweggSearchURL: 'https://www.newegg.com/p/pl?',
+  neweggSearchTermFilterParam: 'd=',
   neweggPageParam: 'page=',
-  neweggGraphicsCardFilterParam: 'N=',
+  neweggFilterParam: 'N=',
   neweggGraphicsCardFilterId: '100007709',
   neweggUrlSpaceChar: '+',
-  neweggInStockParam: '%204131',
+  neweggSpaceCharN: '%20',
+  neweggInStockFilterId: '4131',
   // DOM selectors
   neweggItemContainer: 'item-container',
   neweggPriceClass: 'price-current ',
@@ -21,6 +23,6 @@ module.exports = {
   // =================================
   // Index.js
   // =================================
-  checkPricesInterval: 600000
+  checkPricesInterval: 300000
   // =================================
 }
