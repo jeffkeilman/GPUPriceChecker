@@ -4,6 +4,20 @@
 
 // newegg.getCheapestProductAllPages().then(console.log)
 
-const fs = require('./FileSystem/FileSystem')
+// const fs = require('./FileSystem/FileSystem')
 
-console.log(fs.getGraphicsCardList('GPUList/GPUList.txt'))
+// console.log(fs.getGraphicsCardList('GPUList/GPUList.txt'))
+
+const PuppeteerWrapper = require('./PuppeteerWrapper/PuppeteerWrapper')
+
+const testFn = async () => {
+  const newPuppeteer = new PuppeteerWrapper()
+  await newPuppeteer.init()
+
+  const doms = await newPuppeteer.getDOM([{ url: 'https://google.com/', name: 'testdummy' }, { url: 'https://github.com/', name: 'testdummy' }])
+  console.log(doms)
+}
+
+if (require.main === module) {
+  testFn()
+}
