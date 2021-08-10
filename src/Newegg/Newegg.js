@@ -1,7 +1,7 @@
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
 
-const GetDOM = require('../GetDOM/GetDOM')
+const GetDOM = require('../PuppeteerWrapper/PuppeteerWrapper')
 
 const {
   neweggSearchURL,
