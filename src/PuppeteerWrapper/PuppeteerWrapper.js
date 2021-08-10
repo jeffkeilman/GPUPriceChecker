@@ -79,16 +79,20 @@ class PuppeteerWrapper {
       if (pagesNeeded > 0) {
         await this.openPages(pagesNeeded)
       }
-      const promiseList = []
 
+      const pageNavPromiseList = []
       urls.forEach((url, index) => {
-        // urls.length === this.pages.length now
         this.pages[index].pageName = url.name
-        promiseList.push(this.pages[index].page.goto(url.url))
+        pageNavPromiseList.push(this.pages[index].page.goto(url.url))
       })
+      await Promise.all(pageNavPromiseList)
 
-      await Promise.all(promiseList)
-      return await Promise.all(this.pages.map(page => page.page.content()))
+      const pageContentPromiseList = []
+      for (let x = 0; x < urls.length; x++) {
+        // only get content for pages we just navigated to
+        pageContentPromiseList.push(this.pages[x].page.content())
+      }
+      return await Promise.all(pageContentPromiseList)
     } else {
       const errorMessage = 'Passed an improper argument instead of an array of URL objects, or single URL object'
       console.error(errorMessage)
