@@ -34,27 +34,24 @@ class PuppeteerWrapper {
     await this.browser.close()
   }
 
-  openPages (num) {
+  async openPages (num) {
     const pageDataPromises = []
     for (let x = 1; x <= num; x++) {
-      pageDataPromises.push(new Promise((resolve, reject) => {
-        try {
-          this.browser.newPage().then(page => {
-            resolve({
-              id: x,
-              pageName: null,
-              page: page
-            })
-          })
-        } catch (err) {
-          reject(err)
-        }
-      }))
+      pageDataPromises.push(this.browser.newPage())
     }
+    const newPages = await Promise.all(pageDataPromises)
 
-    return Promise.all(pageDataPromises).then(values => {
-      this.pages = this.pages.concat(values)
+    const newPageObjs = []
+    const pageCount = this.pages.length
+    await newPages.forEach(async (page, index) => {
+      await page.setDefaultNavigationTimeout(0)
+      newPageObjs.push({
+        id: pageCount + index + 1,
+        pageName: null,
+        page: page
+      })
     })
+    this.pages = this.pages.concat(newPageObjs)
   }
 
   async getDOM (urls) {
