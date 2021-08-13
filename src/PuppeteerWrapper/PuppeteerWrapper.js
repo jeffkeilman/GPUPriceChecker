@@ -3,7 +3,7 @@ const Puppeteer = require('puppeteer')
 class PuppeteerWrapper {
   async init () {
     this.pages = []
-    this.browser = await Puppeteer.launch()
+    this.browser = await Puppeteer.launch({ args: ['--no-sandbox'] })
   }
 
   getPages () {
