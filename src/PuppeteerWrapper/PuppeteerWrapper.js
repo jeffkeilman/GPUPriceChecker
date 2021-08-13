@@ -23,7 +23,7 @@ class PuppeteerWrapper {
   }
 
   async closePages () {
-    for (const pageObj in this.pages) {
+    for (const pageObj of this.pages) {
       await pageObj.page.close()
     }
     this.pages = []
@@ -58,7 +58,7 @@ class PuppeteerWrapper {
   }
 
   async getDOM (urls) {
-    // urls: [{ url: 'https://newegg....', name: 'GTX 1660 Super' }] || { url: 'https://newegg...', name: 'GTX 1660 Super' }
+    // urls: [{ url: 'https://newegg....', name: 'GTX 1660 Super' }] || { url: 'https://newegg...', name: 'GTX 1660 Super p2' }
     const isObject = typeof (urls) === 'object'
     const isArray = Array.isArray(urls)
     if (isObject && !isArray) {
@@ -70,7 +70,7 @@ class PuppeteerWrapper {
       await curPage.page.goto(urls.url)
       return await curPage.page.content()
     } else if (isObject && isArray) {
-      if (urls.length < 1) {
+      if (urls.length < 0) {
         const errorMessage = 'Passed a url array with no urls'
         console.error(errorMessage)
         throw errorMessage
@@ -88,8 +88,8 @@ class PuppeteerWrapper {
       await Promise.all(pageNavPromiseList)
 
       const pageContentPromiseList = []
+      // only get content for pages we just navigated to
       for (let x = 0; x < urls.length; x++) {
-        // only get content for pages we just navigated to
         pageContentPromiseList.push(this.pages[x].page.content())
       }
       return await Promise.all(pageContentPromiseList)
