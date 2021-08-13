@@ -1,7 +1,7 @@
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
 
-const GetDOM = require('../GetDOM/GetDOM')
+const PuppeteerWrapper = require('../PuppeteerWrapper/PuppeteerWrapper')
 
 const {
   neweggSearchURL,
@@ -18,7 +18,9 @@ const {
   neweggPaginationTextPrefix,
   neweggItemTitleClass,
   neweggSpaceCharN,
-  neweggInStockFilterId
+  neweggInStockFilterId,
+  pageText,
+  neweggSearchTermFilterParam
 } = require('../../constants/constants')
 
 class Newegg {
@@ -32,7 +34,7 @@ class Newegg {
 
   getBaseLink () {
     // ex. https://www.newegg.com/p/pl?d=GTX+1660+Super&N=100007709
-    return neweggSearchURL + this.gpuName.split(' ').join(neweggUrlSpaceChar) + '&' +
+    return neweggSearchURL + neweggSearchTermFilterParam + this.gpuName.split(' ').join(neweggUrlSpaceChar) + '&' +
       neweggFilterParam + neweggGraphicsCardFilterId + neweggSpaceCharN + neweggInStockFilterId
   }
 
@@ -82,23 +84,38 @@ class Newegg {
   }
 
   async getCheapestProductAllPages () {
-    const cheapestCard = {
-      price: Infinity,
-      link: null
-    }
+    const puppeteer = new PuppeteerWrapper()
+    await puppeteer.init()
 
-    const firstPageHTML = await GetDOM.getDOM(this.getBaseLink())
+    const firstPageHTML = await puppeteer.getDOM({ url: this.getBaseLink(), name: this.getGPUName + pageText + '1' })
     const numPages = this.getNumberOfPages(firstPageHTML)
 
-    for (let x = 1; x <= numPages; x++) {
-      const pageHTML = x === 1 ? firstPageHTML : await GetDOM.getDOM(this.getPageLink(x))
-      const cheapestOnPage = this.getCheapestProductSinglePage(pageHTML)
+    const links = []
+    for (let x = 2; x <= numPages; x++) {
+      const pageLink = this.getPageLink(x)
+      links.push({
+        url: pageLink,
+        name: this.gpuName + pageText + pageLink.slice(-1)
+      })
+    }
+    const allPagesHTML = await puppeteer.getDOM(links)
+    allPagesHTML.unshift(firstPageHTML)
+
+    const cheapestCard = {
+      price: Infinity,
+      link: null,
+      name: null
+    }
+    allPagesHTML.forEach(html => {
+      const cheapestOnPage = this.getCheapestProductSinglePage(html)
       if (cheapestOnPage.price < cheapestCard.price) {
         cheapestCard.price = cheapestOnPage.price
         cheapestCard.link = cheapestOnPage.link
+        cheapestCard.name = this.gpuName
       }
-    }
+    })
 
+    puppeteer.teardown()
     return cheapestCard
   }
 }

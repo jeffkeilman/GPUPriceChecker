@@ -21,8 +21,7 @@ module.exports = {
   // Page content
   neweggPaginationTextPrefix: '1<!-- -->/<!-- -->',
   // =================================
-  // Index.js
+  // Misc.
   // =================================
-  checkPricesInterval: 300000
-  // =================================
+  pageText: 'p. '
 }

@@ -1,9 +1,19 @@
-// const Newegg = require('./Newegg/Newegg')
+const Newegg = require('./Newegg/Newegg')
+const FileSystem = require('./FileSystem/FileSystem')
 
-// const newegg = new Newegg('GTX 1660 Super')
+const testFn = async () => {
+  const graphicsCardList = FileSystem.getGraphicsCardList('GPUList/GPUList.txt')
 
-// newegg.getCheapestProductAllPages().then(console.log)
+  const cheapestCardsPromises = []
+  graphicsCardList.forEach(card => {
+    const newegg = new Newegg(card)
+    cheapestCardsPromises.push(newegg.getCheapestProductAllPages())
+  })
 
-const fs = require('./FileSystem/FileSystem')
+  const cheapestCards = await Promise.all(cheapestCardsPromises)
+  console.log(cheapestCards)
+}
 
-console.log(fs.getGraphicsCardList('GPUList/GPUList.txt'))
+if (require.main === module) {
+  testFn()
+}
