@@ -20,9 +20,15 @@ const main = async () => {
   console.log('GPU Price Checker started!')
   const graphicsCardList = FileSystem.getGraphicsCardList('GPUList/GPUList.txt')
   const channel = client.channels.cache.get(process.env.CHANNEL_ID)
+  let running = false
   setInterval(async () => {
     const start = new Date()
     console.log('Started at:', start.toISOString())
+    if (running) {
+      console.log('Already running, skipping!')
+      return
+    }
+    running = true
 
     const cheapestCards = []
     const batchSize = Number(process.env.BROWSER_BATCH_SIZE) || 0
@@ -55,6 +61,7 @@ const main = async () => {
     const end = new Date()
     console.log('Ended at:', end.toISOString())
     console.log('Time elapsed in seconds:', (end.getTime() - start.getTime()) / 1000)
+    running = false
   }, Number(process.env.INTERVAL))
 }
 
