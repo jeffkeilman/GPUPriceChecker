@@ -26,7 +26,7 @@ class PuppeteerWrapper {
     for (const pageObj of this.pages) {
       await pageObj.page.close()
     }
-    this.pages = []
+    this.pages.splice(0, this.pages.length)
   }
 
   async teardown () {

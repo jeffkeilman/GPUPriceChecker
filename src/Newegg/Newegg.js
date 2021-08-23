@@ -84,6 +84,8 @@ class Newegg {
   }
 
   async getCheapestProductAllPages () {
+    const start = new Date()
+    console.log(`Started finding cheapest ${this.getGPUName()}:`, start.toISOString())
     const puppeteer = new PuppeteerWrapper()
     await puppeteer.init()
 
@@ -116,6 +118,9 @@ class Newegg {
     })
 
     puppeteer.teardown()
+    const end = new Date()
+    console.log(`Finished finding cheapest ${this.gpuName}:`, end.toISOString())
+    console.log(`Time finding ${this.gpuName} elapsed in seconds:`, (end.getTime() - start.getTime()) / 1000)
     return cheapestCard
   }
 }
