@@ -6,6 +6,10 @@ class PuppeteerWrapper {
     this.browser = await Puppeteer.launch({ args: ['--no-sandbox'] })
   }
 
+  getBrowser () {
+    return this.browser
+  }
+
   getPages () {
     return this.pages
   }
@@ -67,10 +71,10 @@ class PuppeteerWrapper {
       await curPage.page.goto(urls.url)
       return await curPage.page.content()
     } else if (isObject && isArray) {
-      if (urls.length < 0) {
+      if (urls.length === 0) {
         const errorMessage = 'Passed a url array with no urls'
         console.error(errorMessage)
-        throw errorMessage
+        throw new Error(errorMessage)
       }
       const pagesNeeded = urls.length - this.pages.length
       if (pagesNeeded > 0) {
@@ -93,7 +97,7 @@ class PuppeteerWrapper {
     } else {
       const errorMessage = 'Passed an improper argument instead of an array of URL objects, or single URL object'
       console.error(errorMessage)
-      throw errorMessage
+      throw new Error(errorMessage)
     }
   }
 }

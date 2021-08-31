@@ -9,7 +9,7 @@ class FileSystem {
       return data.split('\n')
     } catch (err) {
       console.error(err)
-      throw err
+      throw new Error(err)
     }
   }
 }

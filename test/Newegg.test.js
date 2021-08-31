@@ -2,35 +2,6 @@ const Newegg = require('../src/Newegg/Newegg')
 const fs = require('fs')
 const path = require('path')
 
-test('Checks that Newegg constructor correctly sets gpuName, and getGPUName correctly returns it', () => {
-  const newegg = new Newegg('foobar')
-  expect(newegg.getGPUName()).toBe('foobar')
-})
-
-describe('Tests link functionality', () => {
-  // no spaces
-  const neweggNoSpaces = new Newegg('foobar')
-  // spaces
-  const neweggSpaces = new Newegg('foo bar baz')
-
-  test('Checks getBaseLink functionality using GPU name with no spaces', () => {
-    expect(neweggNoSpaces.getBaseLink()).toBe('https://www.newegg.com/p/pl?d=foobar&N=100007709%204131')
-  })
-
-  test('Checks getBaseLink functionality using GPU name with spaces', () => {
-    expect(neweggSpaces.getBaseLink()).toBe('https://www.newegg.com/p/pl?d=foo+bar+baz&N=100007709%204131')
-  })
-
-  test('Checks getPageLink functionality for proper link format', () => {
-    expect(neweggNoSpaces.getPageLink(2)).toBe('https://www.newegg.com/p/pl?d=foobar&N=100007709%204131&page=2')
-  })
-
-  test('Ensures getNumberOfPages returns the number of pages given current HTML format', () => {
-    const dummyPageHTML = '<span class="list-tool-pagination-text">Page<!-- --> <strong>1<!-- -->/<!-- -->2</strong></span>'
-    expect(neweggNoSpaces.getNumberOfPages(dummyPageHTML)).toBe(2)
-  })
-})
-
 const fp1 = path.join(__dirname, 'test_artifacts/Newegg_items1.html')
 const fp2 = path.join(__dirname, 'test_artifacts/Newegg_items2.html')
 const fp3 = path.join(__dirname, 'test_artifacts/Newegg_items3.html')
@@ -61,6 +32,43 @@ jest.mock('../src/PuppeteerWrapper/PuppeteerWrapper', () => {
       init: mockInit,
       teardown: mockTeardown
     }
+  })
+})
+
+beforeEach(() => {
+  jest.clearAllMocks()
+})
+
+afterAll(() => {
+  jest.restoreAllMocks()
+})
+
+test('Checks that Newegg constructor correctly sets gpuName, and getGPUName correctly returns it', () => {
+  const newegg = new Newegg('foobar')
+  expect(newegg.getGPUName()).toBe('foobar')
+})
+
+describe('Tests link functionality', () => {
+  // no spaces
+  const neweggNoSpaces = new Newegg('foobar')
+  // spaces
+  const neweggSpaces = new Newegg('foo bar baz')
+
+  test('Checks getBaseLink functionality using GPU name with no spaces', () => {
+    expect(neweggNoSpaces.getBaseLink()).toBe('https://www.newegg.com/p/pl?d=foobar&N=100007709%204131')
+  })
+
+  test('Checks getBaseLink functionality using GPU name with spaces', () => {
+    expect(neweggSpaces.getBaseLink()).toBe('https://www.newegg.com/p/pl?d=foo+bar+baz&N=100007709%204131')
+  })
+
+  test('Checks getPageLink functionality for proper link format', () => {
+    expect(neweggNoSpaces.getPageLink(2)).toBe('https://www.newegg.com/p/pl?d=foobar&N=100007709%204131&page=2')
+  })
+
+  test('Ensures getNumberOfPages returns the number of pages given current HTML format', () => {
+    const dummyPageHTML = '<span class="list-tool-pagination-text">Page<!-- --> <strong>1<!-- -->/<!-- -->2</strong></span>'
+    expect(neweggNoSpaces.getNumberOfPages(dummyPageHTML)).toBe(2)
   })
 })
 
@@ -108,8 +116,4 @@ describe('Tests getCheapestProduct single and multi-page functionality', () => {
       link: 'item4'
     })
   })
-})
-
-afterAll(() => {
-  jest.restoreAllMocks()
 })
