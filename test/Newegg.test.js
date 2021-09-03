@@ -82,6 +82,9 @@ describe('Tests getCheapestProduct single and multi-page functionality', () => {
   })
 
   test('Tests getCheapestProductAllPages to ensure multiple pages are correctly parsed for cheapest product', async () => {
+    // suppress console.log for this test
+    jest.spyOn(console, 'log').mockImplementation(() => null)
+
     const newegg = new Newegg('GTX 1660 Super')
     const getNumberOfPagesSpy = jest.spyOn(newegg, 'getNumberOfPages').mockImplementation(() => 4)
 

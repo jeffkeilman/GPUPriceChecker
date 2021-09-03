@@ -68,3 +68,10 @@ const main = async () => {
 client.on('ready', main)
 
 client.login(process.env.TOKEN)
+
+// for testing
+module.exports = {
+  arrayPush,
+  processBatch,
+  main
+}

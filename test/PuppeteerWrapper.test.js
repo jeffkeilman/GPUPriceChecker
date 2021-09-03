@@ -204,6 +204,9 @@ describe('getDOM tests', () => {
   })
 
   test('getDOM called with improper argument should throw exception', async () => {
+    // suppress console.error for this test
+    jest.spyOn(console, 'error').mockImplementation(() => null)
+
     const newPuppeteer = new PuppeteerWrapper()
     await newPuppeteer.init()
     await expect(() => newPuppeteer.getDOM(1))
@@ -212,6 +215,9 @@ describe('getDOM tests', () => {
   })
 
   test('getDOM called with empty URL array should throw exception', async () => {
+    // suppress console.error for this test
+    jest.spyOn(console, 'error').mockImplementation(() => null)
+
     const newPuppeteer = new PuppeteerWrapper()
     await newPuppeteer.init()
     await expect(() => newPuppeteer.getDOM([]))
