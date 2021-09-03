@@ -64,8 +64,7 @@ class Index {
         channelMessage += `The cheapest ${card.name} is: $${card.price}.\nCheck it out here: ${card.link}\n\n`
       })
       channelMessage = channelMessage.substring(0, channelMessage.length - 2)
-      // channel.send(channelMessage)
-      console.log('Channel Message:', channelMessage)
+      channel.send(channelMessage)
 
       const end = new Date()
       console.log('Ended at:', end.toISOString())
