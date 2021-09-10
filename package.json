@@ -34,6 +34,8 @@
     }
   },
   "jest": {
-    "setupFiles": ["<rootDir>/test/test_artifacts/setEnvVars.js"]
+    "setupFiles": [
+      "<rootDir>/test/test_artifacts/setEnvVars.js"
+    ]
   }
 }

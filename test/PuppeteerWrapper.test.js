@@ -1,6 +1,6 @@
 const PuppeteerWrapper = require('../src/PuppeteerWrapper/PuppeteerWrapper')
 const puppeteer = require('puppeteer')
-const { mockStubBrowser, mockStubPage } = require('./test_artifacts/PuppeteerMock')
+const { mockStubBrowser, mockStubPage } = require('./test_artifacts/PuppeteerWrapper/PuppeteerMock')
 
 // page spies
 const gotoSpy = jest.spyOn(mockStubPage, 'goto')

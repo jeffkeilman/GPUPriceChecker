@@ -9,7 +9,7 @@ class Index {
   }
 
   init () {
-    this.client.on('ready', this.main.bind(this))
+    this.client.on('ready', () => this.main())
     this.client.login(process.env.TOKEN)
   }
 
@@ -30,33 +30,30 @@ class Index {
     const channel = this.client.channels.cache.get(process.env.CHANNEL_ID)
     let running = false
     setInterval(async () => {
-      const start = new Date()
-      console.log('Started at:', start.toISOString())
       if (running) {
         console.log('Already running, skipping!')
         return
       }
       running = true
+      const start = new Date()
+      console.log('Started at:', start.toISOString())
 
       const cheapestCards = []
       const batchSize = Number(process.env.BROWSER_BATCH_SIZE) || 0
       const cheapestCardsPromises = []
+
       let batch = 0
-      for (let x = 0; x < graphicsCardList.length; x++) {
-        // batchSize of 0 means no batching, otherwise check if browser batch size reached
+      for (let x = 0; x < graphicsCardList.length + 1; x++) {
         if (batchSize !== 0 && batch === batchSize) {
           await this.processBatch(cheapestCardsPromises, cheapestCards)
           batch = 0
         }
 
-        const newegg = new Newegg(graphicsCardList[x])
-        cheapestCardsPromises.push(newegg.getCheapestProductAllPages())
-        batch++
-      }
-
-      // if there are any left to process at the end, wait for them
-      if (batch > 0) {
-        await this.processBatch(cheapestCardsPromises, cheapestCards)
+        if (x !== graphicsCardList.length) {
+          const newegg = new Newegg(graphicsCardList[x])
+          cheapestCardsPromises.push(newegg.getCheapestProductAllPages())
+          batch++
+        }
       }
 
       let channelMessage = ''

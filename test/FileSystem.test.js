@@ -1,6 +1,11 @@
 const FileSystem = require('../src/FileSystem/FileSystem')
+const fs = require('fs')
 
-test('Checks that predefined file returns correct content', () => {
-  const data = FileSystem.getGraphicsCardList('test/test_artifacts/FileSystem_test.txt')
-  expect(data.sort()).toEqual(['foo', 'bar'].sort())
+describe('File system tests', () => {
+  test('Checks that predefined file returns correct content', () => {
+    const fsSpy = jest.spyOn(fs, 'readFileSync').mockReturnValue('foo\nbar')
+    const data = FileSystem.getGraphicsCardList('fakelink.txt')
+    expect(data.sort()).toEqual(['foo', 'bar'].sort())
+    fsSpy.mockRestore()
+  })
 })
