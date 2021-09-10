@@ -59,6 +59,7 @@ class PuppeteerWrapper {
   }
 
   async getDOM (urls) {
+    // GitHub issue: https://github.com/jeffkeilman/GPUPriceChecker/issues/19
     // urls: [{ url: 'https://newegg....', name: 'GTX 1660 Super' }] || { url: 'https://newegg...', name: 'GTX 1660 Super p2' }
     const isObject = typeof (urls) === 'object'
     const isArray = Array.isArray(urls)
