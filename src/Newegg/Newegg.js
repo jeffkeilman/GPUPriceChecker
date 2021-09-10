@@ -89,7 +89,7 @@ class Newegg {
     const puppeteer = new PuppeteerWrapper()
     await puppeteer.init()
 
-    const firstPageHTML = await puppeteer.getDOM({ url: this.getBaseLink(), name: this.getGPUName + pageText + '1' })
+    const firstPageHTML = await puppeteer.getDOM({ url: this.getBaseLink(), name: this.gpuName + ' ' + pageText + '1' })
     const numPages = this.getNumberOfPages(firstPageHTML)
 
     const links = []
@@ -97,7 +97,7 @@ class Newegg {
       const pageLink = this.getPageLink(x)
       links.push({
         url: pageLink,
-        name: this.gpuName + pageText + pageLink.slice(-1)
+        name: this.gpuName + ' ' + pageText + pageLink.slice(-1)
       })
     }
     const allPagesHTML = await puppeteer.getDOM(links)

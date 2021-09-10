@@ -4,7 +4,7 @@
   "description": "Find reasonably priced GPUs on electronics ecommerce sites.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node index.js"
   },
   "repository": {
@@ -24,5 +24,18 @@
   },
   "engines": {
     "node": "16.5"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6"
+  },
+  "standard": {
+    "env": {
+      "jest": true
+    }
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/test/test_artifacts/setEnvVars.js"
+    ]
   }
 }
