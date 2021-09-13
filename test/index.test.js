@@ -124,6 +124,7 @@ describe('main() tests', () => {
   })
 
   xdescribe('Tests with mock issues', () => {
+    // GitHub issue: https://github.com/jeffkeilman/GPUPriceChecker/issues/18
     test('main() should call processBatch twice when process.env.BROWSER_BATCH_SIZE is 3 and 6 graphics cards are returned from getGraphicsCardList', async () => {
       mockGetGraphicsCardList.mockReturnValue(['foo', 'bar', 'fizz', 'buzz', 'lol', 'idk'])
       mockGetCheapestProductAllPages

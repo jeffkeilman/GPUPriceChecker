@@ -84,6 +84,8 @@ class Newegg {
   }
 
   async getCheapestProductAllPages () {
+    // GitHub issue: https://github.com/jeffkeilman/GPUPriceChecker/issues/19
+    // GitHub issue: https://github.com/jeffkeilman/GPUPriceChecker/issues/20
     const start = new Date()
     console.log(`Started finding cheapest ${this.getGPUName()}:`, start.toISOString())
     const puppeteer = new PuppeteerWrapper()
