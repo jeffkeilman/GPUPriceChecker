@@ -126,6 +126,7 @@ A Class that contains all of the methods and attributes required to scrape Neweg
 | getCheapestProductSinglePage (pageHTML)<br />returns: Object | Scrapes the given String `pageHTML` in order to determine the cheapest GPU on that page |
 | getCheapestProductAllPages ()<br />returns: Promise.resolve(Object) | The main flow of the Newegg Class. Finds the number of pages that must be scraped,<br />then scrapes each one of these pages to find the cheapest `this.gpuName` available. |
 
+----------------------------------------------------------------------
 
 ## PuppeteerWrapper.js
 ### Description
@@ -154,11 +155,13 @@ A Class that wraps a Headless Chrome browser (using Puppeteer) and its pages and
 | openPages (num)<br />returns: Promise.resolve(`undefined`) | Opens Number `num` Puppeteer pages and adds them to `this.pages` |
 | getDOM (urls)<br />returns: Promise.resolve(String or Array[String]) | Can be called with a single URL Object (containing String URL,<br />and String GPU name), or an Array of URL Objects. Will return<br />the HTML for the single URL/list of URLs. |
 
+----------------------------------------------------------------------
 
 ## constants.js
 ### Description
 Exports an Object containing constants that are used in many places around the app.
 
+----------------------------------------------------------------------
 
 ## GPUList.txt
 ### Description
