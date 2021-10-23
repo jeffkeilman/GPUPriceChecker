@@ -25,7 +25,7 @@ const mockGetDOM = jest.fn((urls) => {
     return [mockHTML2, mockHTML3, mockHTML4]
   }
 })
-jest.mock('../src/PuppeteerWrapper/PuppeteerWrapper', () => {
+jest.mock('@jswebscraper/puppeteerwrapper', () => {
   return jest.fn().mockImplementation(() => {
     return {
       getDOM: mockGetDOM,
