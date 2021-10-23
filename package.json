@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/jeffkeilman/GPUPriceChecker#readme",
   "dependencies": {
+    "@jswebscraper/puppeteerwrapper": "^0.0.1",
     "discord.js": "^12.5.3",
-    "jsdom": "^16.6.0",
-    "puppeteer": "^10.1.0"
+    "jsdom": "^16.6.0"
   },
   "engines": {
     "node": "16.5"
